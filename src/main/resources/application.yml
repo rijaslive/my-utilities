@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: essentials
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: MAIL_FROM
+    password: PASSWORD
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+mail:
+  to:
+    - 'MAIL0'
+  cc:
+    - 'MAIL1'
+    - 'MAIL2'
+  dummy:
+    - 'DUMMY_MAIL1'
+
+
+tesseract:
+  data:
+    path: 'C:/Program Files/Tesseract-OCR/tessdata'
+
+logging:
+  level:
+    com:
+      apps:
+        essentials:
+          essentials:
+            shell:
+              ShellCommands=DEBUG:
+
