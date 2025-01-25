@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /pdf/generate:
+    post:
+      tags:
+      - pdf-controller
+      operationId: generatePDF
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - input
+              type: object
+              properties:
+                input:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /maintenance/sendMail:
+    post:
+      tags:
+      - maintenance-mailer-controller
+      operationId: sendMaintenanceEmail
+      parameters:
+      - name: amount
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: message
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: confirm
+        in: query
+        required: false
+        schema:
+          type: string
+          default: "N"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - receipt
+              type: object
+              properties:
+                receipt:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /__health:
+    get:
+      tags:
+      - health-check-controller
+      operationId: healthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+components: {}
