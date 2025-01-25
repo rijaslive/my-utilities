@@ -21,12 +21,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@Slf4j
 public class PdfCreator {
     @Autowired
     @Qualifier("malayalamFont")
@@ -72,13 +75,15 @@ public class PdfCreator {
             PdfWriter.getInstance(document, pdfOutputStream);
             document.open();
             String data = readFile(inputTextFile.getInputStream());
+            log.info("File content -> {}",data);
             String fontPath = "NotoSansMalayalam-Regular.ttf";
             BaseFont baseFont = BaseFont.createFont(fontPath, "Identity-H", true);
             new Font(baseFont, 12.0F, 0);
             Paragraph paragraph = new Paragraph(data, this.malayalamFont);
             document.add(paragraph);
-        } catch (DocumentException | IOException e) {
-            ((Exception)e).printStackTrace();
+        } catch (Exception e) {
+            log.error("Exception while processing file ",e);
+            e.printStackTrace();
         } finally {
             document.close();
         }
